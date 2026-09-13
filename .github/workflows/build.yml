@@ -1,0 +1,16 @@
+name: Build DLL
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+    - name: Compile DLL
+      run: cl.exe /LD main.cpp /Fe:multihack.dll user32.lib
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-compiled-dll
+        path: multihack.dll
