@@ -2,13 +2,16 @@ name: Build DLL
 on: [push]
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v3
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-    - name: Compile DLL
-      run: cl.exe /LD main.cpp /Fe:multihack.dll user32.lib
+
+    - name: Configure Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Compile DLL via MSVC
+      run: cl.exe /O2 /LD main.cpp /Fe:multihack.dll user32.lib /EHsc
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
